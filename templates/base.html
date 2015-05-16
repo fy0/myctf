@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<% import config %>
+<html>
+<head>
+    <title>${config.TITLE}</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <!-- Set render engine for 360 browser -->
+    <meta name="renderer" content="webkit">
+    <!-- No Baidu Siteapp-->
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+
+    <link rel="icon" type="image/png" href="${ static('i/favicon.png') }">
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" sizes="192x192" href="${ static('i/app-icon72x72@2x.png') }">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="${ config.TITLE }"/>
+    <link rel="apple-touch-icon-precomposed" href="${ static('i/app-icon72x72@2x.png') }">
+
+    <!-- Tile icon for Win8 (144x144 + tile color) -->
+    <meta name="msapplication-TileImage" content="${ static('i/app-icon72x72@2x.png') }">
+    <meta name="msapplication-TileColor" content="#0e90d2">
+
+    <link rel="stylesheet" href="${ static('css/amazeui.min.css') }">
+    <link rel="stylesheet" href="${ static('css/style.css') }">
+
+    <!--[if lt IE 9]>
+    <script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+    <script src="${ static('js/polyfill/rem.min.js') }"></script>
+    <script src="${ static('js/polyfill/respond.min.js') }"></script>
+    <script src="${ static('js/amazeui.legacy.js') }"></script>
+    <![endif]-->
+
+    <!--[if (gte IE 9)|!(IE)]><!-->
+    <script src="${ static('js/jquery.min.js') }"></script>
+    <script src="${ static('js/amazeui.min.js') }"></script>
+    <!--<![endif]-->
+
+    <%block name="header"/>
+</head>
+
+<body>
+<header class="am-topbar am-topbar-fixed-top">
+    <div class="am-container">
+        <h1 class="am-topbar-brand">
+            <a href="#">MYCTF</a>
+        </h1>
+
+        <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-secondary am-show-sm-only"
+                data-am-collapse="{target: '#collapse-head'}"><span class="am-sr-only">导航切换</span> <span
+                class="am-icon-bars"></span></button>
+
+        <div class="am-collapse am-topbar-collapse" id="collapse-head">
+            <ul class="am-nav am-nav-pills am-topbar-nav">
+                <li class="${'am-active' if nav=='index' else ''}"><a href="${url_for('index')}">首页</a></li>
+                <li class="${'am-active' if nav=='game' else ''}"><a href="${url_for('game')}">答题</a></li>
+                <li class="${'am-active' if nav=='about' else ''}"><a href="${url_for('about')}">关于</a></li>
+            </ul>
+
+            % if req.current_user():
+            <div class="am-topbar-right">
+                <a href="${url_for('signout')}">
+                    <span class="am-btn am-btn-secondary am-topbar-btn am-btn-sm"><span class="am-icon-pencil"></span>
+                        注销
+                    </span>
+                </a>
+            </div>
+            % else:
+            <div class="am-topbar-right">
+                <a href="${url_for('signup')}">
+                    <span class="am-btn am-btn-secondary am-topbar-btn am-btn-sm"><span class="am-icon-pencil"></span>
+                        注册
+                    </span>
+                </a>
+            </div>
+
+            <div class="am-topbar-right">
+                <a href="${url_for('signin')}">
+                    <span class="am-btn am-btn-primary am-topbar-btn am-btn-sm"><span class="am-icon-user"></span> 登录
+                    </span>
+                </a>
+            </div>
+            % endif
+        </div>
+    </div>
+</header>
+
+    <div id="main" class="am-g am-container">
+        % for msg in get_messages():
+            % if msg.tag in ['warning', 'success']:
+                <div class="am-alert am-alert-{{ msg.tags}}">
+                    ${msg.txt}
+                </div>
+            % elif msg.tag in ['info', 'debug']:
+                <div class="am-alert am-alert-secondary">
+                    ${msg.txt}
+                </div>
+            % elif msg.tag in ['error']:
+                <div class="am-alert am-alert-danger ">
+                    ${msg.txt}
+                </div>
+            % endif
+        % endfor
+
+        ${self.body()}
+    </div>
+
+    <footer class="footer">
+      <p>© 2015  <a href="http://rpgame.net" target="_blank">FY</a> Powered By Python & Tornado</p>
+    </footer>
+
+    <%block name="script"/>
+</body>
+</html>

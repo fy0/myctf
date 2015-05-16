@@ -1,0 +1,20 @@
+
+<%inherit file="base.html"/>
+
+<h3>序号${game.id} - ${game.title} - ${game.score}分</h3>
+
+<pre>
+${game.txt}
+</pre>
+
+<form method="POST" class="am-form">
+    ${xsrf_token}
+    <label>KEY:</label>
+    <div class="am-input-group" style="width:40%">
+        <input type="text" class="am-form-field">
+        <span class="am-input-group-btn">
+        <button class="am-btn am-btn-default" type="button">提交</button>
+        </span>
+    </div>
+
+</form>
