@@ -18,6 +18,11 @@ class Games(object):
     last_submit = JsDict()  # 最后提交
 
     @classmethod
+    def is_reach_deadline(cls):
+        if time.time() >= cls.deadline:
+            return True
+
+    @classmethod
     def reload_data(cls):
         """ 重新加载题目 """
         cls.init()

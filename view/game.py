@@ -35,6 +35,10 @@ class GameGet(View):
             self.messages.error('请先登录！')
             return self.redirect(url_for('signin'))
 
+        if Games.is_reach_deadline():
+            self.messages.error("答题时间已经结束！")
+            return self.redirect(url_for('game'))
+
         k = self.get_argument('key')
         if Games.solve(self.current_user(), game_id, k):
             self.messages.success("回答正确！")
