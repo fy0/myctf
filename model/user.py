@@ -37,7 +37,7 @@ class User(BaseModel):
         password_md5 = md5(password).hexdigest()
         password_final = md5(password_md5 + u.salt).hexdigest()
         if u.password == password_final:
-            return True
+            return u
 
     @classmethod
     def exist(cls, username):

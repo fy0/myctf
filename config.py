@@ -1,7 +1,7 @@
 # coding:utf-8
 
 PORT = 9000
-DEBUG = True
+DEBUG = False
 TITLE = 'MYCTF 2015'
 TEMPLATE = 'mako'  # jinja2/mako/default
 DATABASE_URI = "sqlite:///database.db"

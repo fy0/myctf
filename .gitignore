@@ -45,3 +45,4 @@ docs/_build/
 .idea
 database.db
 save.json
+ctf/

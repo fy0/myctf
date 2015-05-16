@@ -2,7 +2,7 @@
     "id": 3,
     "title": "问题 3",
     "score": 50,
-    "key": "g1v3m3k3y",
+    "key": "123",
     "depend": [],
     "depend-g": [],
     "txt": "test"

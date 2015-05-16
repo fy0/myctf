@@ -14,12 +14,12 @@ class SignIn(View):
         password = self.get_argument("password")
 
         error = False
-        if not User.auth(username, password):
+        u = User.auth(username, password)
+        if not u:
             error = True
             self.messages.error("帐号或密码错误！")
 
         if not error:
-            u = User.new(username, password)
             self.messages.success("登陆成功！")
             self.set_secure_cookie("u", u.salt) # 嫌麻烦，直接用salt做key
             return self.redirect(url_for("index"))
