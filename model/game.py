@@ -14,7 +14,36 @@ class Games(object):
     solved_all = {}  # k game_id v user_name
 
     @classmethod
+    def reload_data(cls):
+        """ 重新加载题目 """
+        cls.init()
+
+    @classmethod
+    def save_to_json(cls, fn):
+        info = {
+            'score_board': cls.score_board,
+            'solved': cls.solved,
+            'solved_all': cls.solved_all,
+        }
+        open(fn, 'w').write(json.dumps(info))
+
+    @classmethod
+    def load_from_json(cls, fn):
+        txt = open(fn, 'r').read()
+        info = json.loads(txt)
+        cls.score_board = info['score_board']
+        cls.solved = info['solved']
+        cls.solved_all = info['solved_all']
+
+    @classmethod
     def solve(cls, user, game_id, key):
+        """
+        尝试回答问题。答对加分，答错或重答不管。
+        :param user: 用户对象
+        :param game_id: 题目id
+        :param key: 答案
+        :return: True 回答成功，False回答失败
+        """
         g = cls.get_game(game_id)
         if g:
             if g.key != key:
@@ -31,7 +60,7 @@ class Games(object):
 
     @classmethod
     def get_user_solved(cls, user):
-        ''' 获取用户已经解决的问题列表'''
+        """ 获取用户已经解决的问题列表 """
         if user and user.username in cls.solved:
             return map(int, cls.solved[user.username])
         return []
