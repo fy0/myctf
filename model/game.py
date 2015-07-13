@@ -1,4 +1,5 @@
 ﻿# coding:utf-8
+from operator import itemgetter
 
 import os
 import re
@@ -14,13 +15,9 @@ class Games(object):
     solved = {}  # k user_name v list of game_id
     solved_all = {}  # k game_id v user_name
     extra = {}  # 附加分值
-    deadline = 9431781807  # 时间戳，关闭提交的时间期限
     last_submit = JsDict()  # 最后提交
-
-    @classmethod
-    def is_reach_deadline(cls):
-        if time.time() >= cls.deadline:
-            return True
+    is_end = False  # 是否结束
+    last_save_time = 0  # 上次保存进度的时间
 
     @classmethod
     def reload_data(cls):
@@ -35,7 +32,9 @@ class Games(object):
             'solved_all': cls.solved_all,
             'extra': cls.extra,
             'last_submit': cls.last_submit,
+            'is_end': cls.is_end,
         }
+        cls.last_save_time = int(time.time())
         open(fn, 'w').write(json.dumps(info))
 
     @classmethod
@@ -55,8 +54,43 @@ class Games(object):
                 cls.extra[k] = v
         if 'last_submit' in info:
             cls.last_submit = info['last_submit']
-        if 'deadline' in info:
-            cls.deadline = info['deadline']
+        if 'is_end' in info:
+            cls.deadline = info['is_end']
+
+    @classmethod
+    def depend_check(cls, user, game_id):
+        info = cls.data.get(game_id)
+
+        if info:
+            for i in info['depend']:
+                if user.username not in cls.solved:
+                    return False
+
+                if i not in cls.solved[user.username]:
+                    return False
+
+            for i in info['depend-g']:
+                if i not in cls.solved_all:
+                    return False
+        else:
+            return False
+
+        return True
+
+    @classmethod
+    def game_edit(cls, info):
+        cls.data[info['id']].update(info)
+        open(os.path.join('ctf', '问题%s.txt' % info['id']), 'w').write(json.dumps(info))
+
+    @classmethod
+    def game_add(cls, info):
+        cls.data[info['id']] = info
+        open(os.path.join('ctf', '问题%s.txt' % info['id']), 'w').write(json.dumps(info))
+
+    @classmethod
+    def game_rm(cls, game_id):
+        del cls.data[game_id]
+        os.remove(os.path.join('ctf', '问题%s.txt' % game_id))
 
     @classmethod
     def solve(cls, user, game_id, key):
@@ -95,6 +129,11 @@ class Games(object):
             # 加入回答列表
             cls.solved[user.username].append(game_id)
 
+            # 加入总列表
+            if not game_id in cls.solved_all:
+                cls.solved_all[game_id] = []
+            cls.solved_all[game_id].append(user.username)
+
             # 标记最后提交
             cls.last_submit[user.username] = time.time()
 
@@ -104,7 +143,7 @@ class Games(object):
     def get_user_solved(cls, user):
         """ 获取用户已经解决的问题列表 """
         if user and user.username in cls.solved:
-            return map(int, cls.solved[user.username])
+            return list(map(int, cls.solved[user.username]))
         return []
 
     @classmethod
@@ -113,23 +152,33 @@ class Games(object):
             if user.username in cls.score_board:
                 return cls.score_board[user.username]
         return 0
-        
-    @classmethod
-    def get_score_board(cls):
-        return OrderedDict(sorted(cls.score_board.items(), key=lambda x: x[1], reverse=True))
 
     @classmethod
-    def get_lst(cls):
+    def get_score_board(cls):
+        def my_key(x):
+            return [x[1], -cls.last_submit[x[0]]]
+
+        return OrderedDict(sorted(cls.score_board.items(), key=my_key, reverse=True))
+
+    @classmethod
+    def get_brief_lst(cls):
         ret = []
         for i in cls.data.keys():
             ret.append([cls.data[i].id, cls.data[i].title, cls.data[i].score])
         return ret
 
     @classmethod
+    def get_lst(cls):
+        ret = []
+        for i in cls.data.values():
+            ret.append(JsDict(i))
+        return ret
+
+    @classmethod
     def init(cls):
         for i in os.listdir('ctf'):
             if i.endswith('.txt'):
-                raw_txt = open("ctf/"+i).read()
+                raw_txt = open("ctf/" + i, encoding='utf-8').read()
                 txt = raw_txt
                 for t in re.findall(r'"(.*?)(?<!\\)"', raw_txt, re.DOTALL):
                     txt = txt.replace(t, t.replace('\r', r'\r').replace('\n', r'\n'))
@@ -142,6 +191,18 @@ class Games(object):
                 cls.data[data.id] = data
 
     @classmethod
+    def reset(cls):
+        cls.data = JsDict()
+        cls.score_board = JsDict()  # k user_name v score
+        cls.solved = {}  # k user_name v list of game_id
+        cls.solved_all = {}  # k game_id v user_name
+        cls.extra = {}  # 附加分值
+        cls.last_submit = JsDict()  # 最后提交
+        cls.is_end = False  # 是否结束
+        cls.last_save_time = 0  # 上次保存进度的时间
+        cls.init()
+
+    @classmethod
     def get_game(cls, game_id):
         return cls.data[int(game_id)]
 
@@ -151,9 +212,14 @@ class Games(object):
         del ret['key']
         return JsDict(ret)
 
-# 初始化
-Games.init()
 
-# 读取数据
-if os.path.exists('save.json'):
-    Games.load_from_json('save.json')
+def game_init():
+    # 初始化
+    Games.init()
+
+    # 读取数据
+    if os.path.exists('save.json'):
+        Games.load_from_json('save.json')
+
+
+game_init()

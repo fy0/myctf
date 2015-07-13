@@ -1,0 +1,32 @@
+
+<%inherit file="../base.html"/>
+
+<div class="am-panel am-panel-default">
+    <div class="am-panel-hd">进度管理 （上次保存：${last_save_time}}）</div>
+    <div class="am-panel-bd">
+        <a href="${url_for('admin_backup')}" class="am-btn am-btn-primary" />保存答题进度</a>
+        <a href="${url_for('admin_restore')}" class="am-btn am-btn-primary" />加载答题进度</a>
+        % if is_end:
+            <a href="${url_for('admin_boot')}" class="am-btn am-btn-primary" />重新开启答题</a>
+        % else:
+            <a href="${url_for('admin_halt')}" class="am-btn am-btn-primary" />关闭答题</a>
+        % endif
+    </div>
+</div>
+
+
+<div class="am-panel am-panel-default">
+    <div class="am-panel-hd">题目管理</div>
+    <div class="am-panel-bd">
+        <a href="${url_for('admin_questions')}" class="am-btn am-btn-primary" />题目编辑</a>
+        <a href="${url_for('admin_reload')}" class="am-btn am-btn-primary" />重新加载题目（当前分数不变）</a>
+    </div>
+</div>
+
+
+<div class="am-panel am-panel-default">
+    <div class="am-panel-hd">危险操作</div>
+    <div class="am-panel-bd">
+        <a href="${url_for('admin_reset')}" class="am-btn am-btn-danger" />重置答题系统</a>
+    </div>
+</div>

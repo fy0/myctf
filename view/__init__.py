@@ -121,6 +121,11 @@ class Messages(object):
     def error(self, message):
         self._add_message(self.MESSAGE_LEVEL.ERROR, message)
 
+    def has_error(self):
+        for i in self.messages:
+            if i[0] == self.MESSAGE_LEVEL.ERROR:
+                return True
+
 
 class View(tornado.web.RequestHandler):
     def render(self, fn=None, **kwargs):
@@ -172,6 +177,24 @@ class View(tornado.web.RequestHandler):
         key = self.get_secure_cookie('u')
         return User.get_by_key(key)
 
+    def is_admin(self):
+        user = self.current_user()
+        if user and user.is_admin():
+            return user
+
+
+class LoginView(View):
+    def prepare(self):
+        if not self.current_user():
+            self.messages.info("请先登录！")
+            self.redirect(url_for('signin'))
+
+class AdminView(LoginView):
+    def prepare(self):
+        user = self.current_user()
+        if not (user and user.is_admin()):
+            self.messages.error("权限不够！")
+            self.redirect(url_for('index'))
 
 # sugar
 def url_for(name, *args):

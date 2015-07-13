@@ -1,0 +1,96 @@
+
+<%inherit file="../base.html"/>
+
+<%block name="head">
+    <link rel="stylesheet" href="${ static('css/simditor.min.css') }">
+    <script src="${ static('js/module.min.js') }"></script>
+    <script src="${ static('js/uploader.min.js') }"></script>
+    <script src="${ static('js/hotkeys.min.js') }"></script>
+    <script src="${ static('js/simditor.min.js') }"></script>
+    <script src="${ static('js/simditor-livemd.js') }"></script>
+</%block>
+
+
+<div class="am-g am-g-fixed">
+
+    <div class="col-md-3 am-u-md-3">
+        <ul class="am-nav" data-am-sticky="{top:51}">
+            <li><a href="${ url_for('admin_questions') }">返回列表</a></li>
+            <li class="am-nav-divider"></li>
+            <li><a href="#" data-am-smooth-scroll>回到顶部</a></li>
+        </ul>
+    </div>
+
+
+    <div class="col-md-9 am-u-md-9 doc-content">
+
+        <form class="am-form" id="question-form" method="post">
+            ${ xsrf_token }
+            <fieldset>
+                <legend>${title}</legend>
+                <div class="am-form-group">
+                    编号<input type="number" name="id" value="${question.id or ''}" ${'readonly' if not is_new_question else ''}>
+                </div>
+
+                <div class="am-form-group">
+                    标题<input type="text" name="title" value="${question.title or ''}">
+                </div>
+
+                <div class="am-form-group">
+                    命题人<input type="text" name="author" value="${question.author or ''}">
+                </div>
+
+                <div class="am-form-group">
+                    分值<input type="number" name="score" value="${question.score or ''}">
+                </div>
+
+                <div class="am-form-group">
+                    前置题 - 用户<input type="text" name="depend" value="${question.depend or '[]'}">
+                </div>
+
+                <div class="am-form-group">
+                    前置题 - 全局<input type="text" name="depend-g" value="${question['depend-g'] or '[]'}">
+                </div>
+
+                <div class="am-form-group">
+                    题目<textarea id="txt-content" rows="5" name="txt">${question.txt or ''}</textarea>
+                </div>
+
+                <div class="am-form-group">
+                    答案<input type="text" name="key" value="${question.key or ''}">
+                </div>
+
+                <p>
+                    <button type="submit" class="am-btn am-btn-default">保存</button>
+                </p>
+            </fieldset>
+        </form>
+    </div>
+</div>
+
+<script>
+
+    $(document).ready(function() {
+
+        $(function () {
+            var editor, mobileToolbar, toolbar;
+            toolbar = ['title', 'bold', 'italic', 'underline', 'strikethrough', 'color', '|', 'ol', 'ul', 'blockquote', 'code', 'table', '|', 'link', 'image', 'hr', '|', 'indent', 'outdent', 'alignment'];
+            mobileToolbar = ["bold", "underline", "strikethrough", "color", "ul", "ol"];
+            /*if (mobilecheck()) {
+             toolbar = mobileToolbar;
+             }*/
+            return editor = new Simditor({
+                textarea: $('#txt-content'),
+                placeholder: '这里输入文字...',
+                toolbar: toolbar,
+                pasteImage: true,
+                defaultImage: '/static/images/image.png',
+                upload: null,
+                livemd: true
+                // autosave: 'editor-content'
+            });
+        });
+
+    });
+
+</script>

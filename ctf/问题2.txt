@@ -6,28 +6,28 @@
     "depend": [],
     "depend-g": [],
     "comment": "depend 代表当前用户解出某些题后才能开启此题。depend-g 代表有用户解出某些题才能开题",
-    "txt": "有这样一段文本：
-
-Next install the Python interpreter on your computer This is the program that reads Python programs and carries out their instructions; you need it before you can do any Python programming Mac OSX distributions from 103 (Panther) and up include a version of Python which although it can be as much as two years out of date may be suitable for beginning Linux distributions also frequently include Python and it is readily upgraded
-
-There are currently two major versions of Python available Python 2 and Python 3 The Python2orPython3 page provides advice on how to decide which one will best suit your needs At the time of writing (21 Jun 2010) the rest of this page assumes you are decided to use Python 2
-
-See BeginnersGuide/Download for instructions for downloading the correct version of Python
-
-At some stage you will want to edit and save your program code Take a look at HowToEditPythonCode for some advice and recommendations
-
-Learning Python
-
-Next read a tutorial and try some simple experiments with your new Python interpreter
-
-If you ave never programmed before see BeginnersGuide or NonProgrammers for a list of suitable tutorials
-If you have previous programming experience consult BeginnersGuide/Programmers which lists more advanced tutorials
-If English isn't your first language you might be more comfortable with a tutorial that's been translated into your language Consult pythonorg's list of Non-English resources
-Most tutorials assume you know how to run a program on your computer If you are using Windows and need help with this see How do I Run a Program Under Windows
-
-Once you are read a tutorial you can browse through Python's online documentation It includes a tutorial that may be helpful a Library Reference that lists all of the modules that come standard with Python and the Language Reference for a complete (if rather dry) explanation of Python's syntax
-
-When you are ready to write your first program you will need a text editor To get started you can use any editor you are familiar with - even something like Notepad - but as you gain experience you may want to use a text editor with features that help you write Python programs See PythonEditors for a list of programs friendly to Python code editing
-
+    "txt": "有这样一段文本：<br>
+<br>
+Next install the Python interpreter on your computer This is the program that reads Python programs and carries out their instructions; you need it before you can do any Python programming Mac OSX distributions from 103 (Panther) and up include a version of Python which although it can be as much as two years out of date may be suitable for beginning Linux distributions also frequently include Python and it is readily upgraded<br>
+<br>
+There are currently two major versions of Python available Python 2 and Python 3 The Python2orPython3 page provides advice on how to decide which one will best suit your needs At the time of writing (21 Jun 2010) the rest of this page assumes you are decided to use Python 2<br>
+<br>
+See BeginnersGuide/Download for instructions for downloading the correct version of Python<br>
+<br>
+At some stage you will want to edit and save your program code Take a look at HowToEditPythonCode for some advice and recommendations<br>
+<br>
+Learning Python<br>
+<br>
+Next read a tutorial and try some simple experiments with your new Python interpreter<br>
+<br>
+If you ave never programmed before see BeginnersGuide or NonProgrammers for a list of suitable tutorials<br>
+If you have previous programming experience consult BeginnersGuide/Programmers which lists more advanced tutorials<br>
+If English isn't your first language you might be more comfortable with a tutorial that's been translated into your language Consult pythonorg's list of Non-English resources<br>
+Most tutorials assume you know how to run a program on your computer If you are using Windows and need help with this see How do I Run a Program Under Windows<br>
+<br>
+Once you are read a tutorial you can browse through Python's online documentation It includes a tutorial that may be helpful a Library Reference that lists all of the modules that come standard with Python and the Language Reference for a complete (if rather dry) explanation of Python's syntax<br>
+<br>
+When you are ready to write your first program you will need a text editor To get started you can use any editor you are familiar with - even something like Notepad - but as you gain experience you may want to use a text editor with features that help you write Python programs See PythonEditors for a list of programs friendly to Python code editing<br>
+<br>
 告诉我其中出现词数最多的一个单词是什么。忽略大小写。"
 }

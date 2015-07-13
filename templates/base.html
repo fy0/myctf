@@ -46,10 +46,10 @@
     <script src="${ static('js/amazeui.min.js') }"></script>
     <!--<![endif]-->
 
-    <%block name="header"/>
+    <%block name="head"/>
 </head>
 
-<body>
+<body class="am-with-topbar-fixed-top">
 <header class="am-topbar am-topbar-fixed-top">
     <div class="am-container">
         <h1 class="am-topbar-brand">
@@ -64,6 +64,9 @@
             <ul class="am-nav am-nav-pills am-topbar-nav">
                 <li class="${'am-active' if nav=='index' else ''}"><a href="${url_for('index')}">首页</a></li>
                 <li class="${'am-active' if nav=='game' else ''}"><a href="${url_for('game')}">答题</a></li>
+                % if req.is_admin():
+                    <li class="${'am-active' if nav=='admin' else ''}"><a href="${url_for('admin')}">管理</a></li>
+                % endif
                 <li class="${'am-active' if nav=='about' else ''}"><a href="${url_for('about')}">关于</a></li>
             </ul>
 
@@ -115,7 +118,7 @@
         ${self.body()}
     </div>
 
-    <footer class="footer">
+    <footer class="footer amz-footer">
         <p>© 2015  <a href="http://rpgame.net" target="_blank">FY</a> Powered By <a href="http://python.org/" target="_blank">Python</a> & <a href="http://www.tornadoweb.org/" target="_blank">Tornado</a></p>
     </footer>
 

@@ -14,7 +14,7 @@
 
         <div class="am-g boxes" id="grid" style="margin-left:0px">
             %for i in lst:
-                <a class="am-u-sm-4 am-btn ${'am-u-end' if loop.index == loop.last else ''} ${'am-btn-success' if int(i[0]) in solved else 'am-btn-primary'}" href="${url_for('game_get', i[0])}">${i[1]} - ${i[2]}分</a>
+                <a class="am-u-sm-4 am-btn ${'am-u-end' if loop.index == loop.last else ''} ${'am-btn-success' if int(i[0]) in solved else 'am-btn-primary'} ${'am-disabled' if not depend_check(i[0]) else ''}" href="${url_for('game_get', i[0])}">${i[1]} - ${i[2]}分</a>
             %endfor
         </div>
     </div>

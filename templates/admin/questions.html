@@ -1,0 +1,41 @@
+
+<%inherit file="../base.html"/>
+
+<table class="am-table am-table-bordered am-table-striped am-table-compact">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>题目</th>
+        <th>作者</th>
+        <th>类别</th>
+        <th>分数</th>
+        <th>前置题 - 用户</th>
+        <th>前置题 - 全局</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    % for i in lst:
+    <tr>
+        <td>${i.id}</td>
+        <td>${i.title}</td>
+        <td>${i.author or '无名'}</td>
+        <td>${i.type_ or '缺省'}</td>
+        <td>${i.score}</td>
+        <td>${i.depend}</td>
+        <td>${i['depend-g']}</td>
+        <td style="width: 15%">
+            <div class="am-btn-group">
+                <a href="${ url_for('admin_question_edit', i.id) }" class="am-btn am-btn-xs am-btn-primary">编辑</a>
+                <a href="${ url_for('admin_question_rm', i.id) }" class="am-btn am-btn-xs am-btn-danger">删除</a>
+            </div>
+        </td>
+    </tr>
+    % endfor
+    </tbody>
+</table>
+
+<a class="am-btn am-btn-warning" href="${ url_for('admin_question_add') }">
+  <i class="am-icon-plus"></i>
+  出新题
+</a>

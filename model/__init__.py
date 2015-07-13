@@ -10,3 +10,7 @@ db = connect(config.DATABASE_URI)
 class BaseModel(peewee.Model):
     class Meta:
         database = db
+
+    @classmethod
+    def count(cls):
+        return cls.select().count()
