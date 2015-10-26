@@ -1,7 +1,5 @@
 # MYCTF
 
-![首页](http://rpgame.net/pics/myctf-首页.png)
-
 MYCTF 是一个简单易扩展的CTF程序，用于举办小型比赛，基于sqlite和文本数据库。
 
 依赖于：tornado peewee mako
@@ -49,6 +47,10 @@ MYCTF 是一个简单易扩展的CTF程序，用于举办小型比赛，基于sq
 **重置答题系统**：记录清零，分数清零，所有题目重载（当然用户是保留的）。
 
 ### **一些截图**
+
+![首页](http://rpgame.net/pics/myctf-首页.png)
+
+首页
 
 ![完成答题](http://rpgame.net/pics/myctf-完成答题.png)
 
