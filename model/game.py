@@ -80,17 +80,17 @@ class Games(object):
     @classmethod
     def game_edit(cls, info):
         cls.data[info['id']].update(info)
-        open(os.path.join('ctf', '问题%s.txt' % info['id']), 'w').write(json.dumps(info))
+        open(os.path.join(u'ctf', u'问题%s.txt' % info['id']), 'w').write(json.dumps(info))
 
     @classmethod
     def game_add(cls, info):
-        cls.data[info['id']] = info
-        open(os.path.join('ctf', '问题%s.txt' % info['id']), 'w').write(json.dumps(info))
+        cls.data[info['id']] = JsDict(info)
+        open(os.path.join(u'ctf', u'问题%s.txt' % info['id']), 'w').write(json.dumps(info))
 
     @classmethod
     def game_rm(cls, game_id):
         del cls.data[game_id]
-        os.remove(os.path.join('ctf', '问题%s.txt' % game_id))
+        os.remove(os.path.join(u'ctf', u'问题%s.txt' % game_id))
 
     @classmethod
     def solve(cls, user, game_id, key):
@@ -178,7 +178,10 @@ class Games(object):
     def init(cls):
         for i in os.listdir('ctf'):
             if i.endswith('.txt'):
-                raw_txt = open("ctf/" + i, encoding='utf-8').read()
+                try:
+                    raw_txt = open("ctf/" + i, encoding='utf-8').read()
+                except:
+                    raw_txt = open("ctf/" + i).read()
                 txt = raw_txt
                 for t in re.findall(r'"(.*?)(?<!\\)"', raw_txt, re.DOTALL):
                     txt = txt.replace(t, t.replace('\r', r'\r').replace('\n', r'\n'))
